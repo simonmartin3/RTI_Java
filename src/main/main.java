@@ -54,9 +54,6 @@ public class main {
         pClient.load(inC);
         pServeur.load(inS);
         
-//        pClient.list(System.out);
-//        pServeur.list(System.out);
-        
         LoginClient lc = new LoginClient(pClient);
         lc.setVisible(true);
        

@@ -17,6 +17,8 @@ public class ReponseSUM implements Reponse, Serializable {
     public static int LOGIN_FAIL = 102;
     public static int LOGOUT_OK = 201;
     public static int LOGOUT_FAIL = 202;
+    public static int INPUT_LORRY_OK = 301;
+    public static int INPUT_LORRY_FAIL = 302;
     private int codeRetour;
     private String chargeUtile;
     

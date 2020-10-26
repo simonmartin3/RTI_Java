@@ -18,4 +18,5 @@ public interface BDBean {
     public List<Mouvement> getMouvements();
     public List<Destination> getDestinations();
     public List<Transporteur> getTransporteurs();
+    public List<Reservation> getReservations();
 }

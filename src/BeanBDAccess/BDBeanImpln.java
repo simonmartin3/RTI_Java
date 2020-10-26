@@ -5,6 +5,7 @@
  */
 package BeanBDAccess;
 
+import java.io.Serializable;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -14,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author Simon
  */
-public class BDBeanImpln implements BDBean {
+public class BDBeanImpln implements BDBean, Serializable {
     
     public static Connection getConnection() throws SQLException, ClassNotFoundException 
     {
@@ -143,6 +144,28 @@ public class BDBeanImpln implements BDBean {
                 try (ResultSet resultSet = statement.executeQuery("SELECT * FROM parc")) {
                     while(resultSet.next()) {
                         returnValue.add(new Transporteur(resultSet));
+                    }
+                }
+            }  
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(BDBeanImpln.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BDBeanImpln.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return returnValue;
+    }
+    
+    public List<Reservation> getReservations() 
+    {
+        List<Reservation> returnValue = new ArrayList<>();
+        
+        try (Connection connection = getConnection()) {
+          try (Statement statement = connection.createStatement()) {
+                try (ResultSet resultSet = statement.executeQuery("SELECT * FROM reservations")) {
+                    while(resultSet.next()) {
+                        returnValue.add(new Reservation(resultSet));
                     }
                 }
             }  

@@ -5,6 +5,7 @@
  */
 package ProtocoleSUM;
 
+import BeanBDAccess.*;
 import java.io.*;
 import java.util.*;
 import java.net.*;
@@ -25,6 +26,8 @@ public class RequeteSUM implements Requete, Serializable{
     private int type;
     private String chargeUtile;
     private Socket socketClient;
+    
+    BDBeanImpln impln = new BDBeanImpln();
     
     public RequeteSUM(int t, String chu)
     {
@@ -241,7 +244,64 @@ public class RequeteSUM implements Requete, Serializable{
     
     private void traiteRequeteInputLorry(Socket sock, ConsoleServeur cs) throws FileNotFoundException, IOException
     {
+        String adresseDistante = sock.getRemoteSocketAddress().toString();
+        cs.TraceEvenements(adresseDistante+"#INPUT_LORRY#"+Thread.currentThread().getName());
         
+        Vector param = new Vector();
+        StringTokenizer parser = new StringTokenizer(getChargeUtile(),",");
+        while (parser.hasMoreTokens())
+            param.add(parser.nextToken());
+        
+        
+        System.out.println("Essai de connexion JDBC");
+        List<Reservation> reservationList = null;
+        List<Societe> societeList = null;
+        
+        reservationList= impln.getReservations();
+        societeList = impln.getSocietes();
+        
+        ReponseSUM rep = null;
+        int i = 0;
+        boolean find = false;
+        
+        if(!reservationList.isEmpty())
+        {
+            while(i < reservationList.size()) 
+            {
+                if(reservationList.get(i).getIdReservation().equals(param.get(0)) && reservationList.get(i).getIdContainer().equals(param.get(1)))
+                {
+                    find = true;
+                    break;
+                }
+                i++;
+            }
+            
+            if(find)
+            {
+                String msg = getChargeUtile() + "," + reservationList.get(i).getIdTransporteur()+ "," + reservationList.get(i).getIdSociete();
+                rep = rep = new ReponseSUM(ReponseSUM.INPUT_LORRY_OK, msg);
+                cs.TraceEvenements(adresseDistante+"#INPUT_LORRY OK#"+Thread.currentThread().getName());
+            }
+        }
+        else
+        {
+            rep = rep = new ReponseSUM(ReponseSUM.INPUT_LORRY_FAIL, "fail");
+            cs.TraceEvenements(adresseDistante+"#INPUT_LORRY FAIL#"+Thread.currentThread().getName());
+        }
+        
+
+        // Construction d'une réponse
+        ObjectOutputStream oos;
+        try
+        {
+            oos = new ObjectOutputStream(sock.getOutputStream());
+            oos.writeObject(rep); oos.flush();
+            oos.close();
+        }
+        catch (IOException e)
+        {
+            System.err.println("Erreur réseau ? [" + e.getMessage() + "]");
+        }
     }
     
     private void traiteRequeteInputLorryWithoutReservation(Socket sock, ConsoleServeur cs) throws FileNotFoundException, IOException

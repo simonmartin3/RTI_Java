@@ -108,6 +108,8 @@ public class FenAppClient extends javax.swing.JFrame {
         {
             case 0:
                 System.out.println(ComboBox_Requetes.getItemAt(requestSelected));
+                InputReservationClient irc = new InputReservationClient(this, false, cliSocket);
+                irc.setVisible(true);
                 break;
             
             case 1:
