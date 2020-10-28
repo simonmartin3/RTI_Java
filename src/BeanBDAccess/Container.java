@@ -13,22 +13,36 @@ import java.sql.*;
  */
 public class Container {
     
-    private int idContainer;
+    private String idContainer;
     private String idSociete;
     private String contenu;
     private int capacite;
     private String dangers;
     
+    public Container()
+    {
+        
+    }
+    
+    public Container(String tmp1, String tmp2, String tmp3, int tmp4, String tmp5)
+    {
+        this.idContainer = tmp1;
+        this.idSociete = tmp2;
+        this.contenu = tmp3;
+        this.capacite = tmp4;
+        this.dangers = tmp5;
+    }
+    
     public Container(ResultSet resultSet) throws SQLException
     {
-        this.idContainer = resultSet.getInt(1);
+        this.idContainer = resultSet.getString(1);
         this.idSociete = resultSet.getString(2);
         this.contenu = resultSet.getString(3);
         this.capacite = resultSet.getInt(4);
         this.dangers = resultSet.getString(5);
     }
     
-    public void setIdContainer(int idContainer) {
+    public void setIdContainer(String idContainer) {
         this.idContainer = idContainer;
     }
 
@@ -48,7 +62,7 @@ public class Container {
         this.dangers = dangers;
     }
 
-    public int getIdContainer() {
+    public String getIdContainer() {
         return idContainer;
     }
 

@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
  *
  * @author Simon
  */
-public class InputReservationClient extends javax.swing.JDialog {
+public class InputClient extends javax.swing.JDialog {
 
     /**
      * Creates new form InputReservationClient
@@ -33,7 +33,7 @@ public class InputReservationClient extends javax.swing.JDialog {
     private Socket cliSocket;
     private Socket tmpSocket;
     
-    public InputReservationClient(java.awt.Frame parent, boolean modal, Socket s) {
+    public InputClient(java.awt.Frame parent, boolean modal, Socket s) {
         super(parent, modal);
         initComponents();
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -55,7 +55,7 @@ public class InputReservationClient extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        TextField_Reservation = new javax.swing.JTextField();
+        TextField_Immatriculation = new javax.swing.JTextField();
         TextField_IdContainer = new javax.swing.JTextField();
         Button_Ok = new javax.swing.JButton();
         Button_Annuler = new javax.swing.JButton();
@@ -64,14 +64,14 @@ public class InputReservationClient extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Arrivée d'un container avec réservation");
+        jLabel1.setText("Arrivée d'un container sans réservation");
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
             }
         });
 
-        jLabel2.setText("Numéro de réservation :");
+        jLabel2.setText("Immatriculation du camion :");
 
         jLabel3.setText("Identifiant container :");
 
@@ -99,7 +99,7 @@ public class InputReservationClient extends javax.swing.JDialog {
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(TextField_Reservation)
+                    .addComponent(TextField_Immatriculation)
                     .addComponent(TextField_IdContainer)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Button_Ok, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -115,7 +115,7 @@ public class InputReservationClient extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TextField_Reservation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TextField_Immatriculation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -135,14 +135,14 @@ public class InputReservationClient extends javax.swing.JDialog {
     }//GEN-LAST:event_Button_AnnulerActionPerformed
 
     private void Button_OkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_OkActionPerformed
-        if(TextField_Reservation.getText().equals("") || TextField_IdContainer.getText().equals(""))
+        if(TextField_Immatriculation.getText().equals("") || TextField_IdContainer.getText().equals(""))
         {
-            JOptionPane.showMessageDialog(new JFrame(), "Entrer un numéro de réservation et/ou \n un identifiant pour le container.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "Entrer une immatriculation et/ou \n un identifiant pour le container.", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
         else
         {
-            String chargeUtile = TextField_Reservation.getText() + "," + TextField_IdContainer.getText();
-            RequeteSUM req = new RequeteSUM(RequeteSUM.REQUEST_INPUT_LORRY, chargeUtile);
+            String chargeUtile = TextField_Immatriculation.getText() + "," + TextField_IdContainer.getText();
+            RequeteSUM req = new RequeteSUM(RequeteSUM.REQUEST_INPUT_LORRY_WITHOUT_RESERVATION, chargeUtile);
 
             // Connexion au serveur
             ois=null; 
@@ -190,10 +190,10 @@ public class InputReservationClient extends javax.swing.JDialog {
                 System.out.println("--- erreur IO = " + e.getMessage()); 
             }
             
-            if(rep.getCode() == ReponseSUM.INPUT_LORRY_OK)
+            if(rep.getCode() == ReponseSUM.INPUT_LORRY_WITHOUT_RESERVATION_OK)
             {
-                CreateContainerReservationClient ccrc = new CreateContainerReservationClient((Frame) super.getParent(), false, cliSocket, rep.getChargeUtile());
-                ccrc.setVisible(true);
+                CreateContainerClient ccc = new CreateContainerClient((Frame) super.getParent(), false, cliSocket, rep.getChargeUtile());
+                ccc.setVisible(true);
                 this.dispose();
             }
             else
@@ -204,8 +204,8 @@ public class InputReservationClient extends javax.swing.JDialog {
     }//GEN-LAST:event_Button_OkActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        TextField_Reservation.setText("R-000001");
-        TextField_IdContainer.setText("C-000-AAA");
+        TextField_Immatriculation.setText("000-000-002");
+        TextField_IdContainer.setText("C-000-BBB");
     }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
@@ -225,20 +225,21 @@ public class InputReservationClient extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InputReservationClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InputClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InputReservationClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InputClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InputReservationClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InputClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InputReservationClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InputClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                InputReservationClient dialog = new InputReservationClient(new javax.swing.JFrame(), true, null);
+                InputClient dialog = new InputClient(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -254,7 +255,7 @@ public class InputReservationClient extends javax.swing.JDialog {
     private javax.swing.JButton Button_Annuler;
     private javax.swing.JButton Button_Ok;
     private javax.swing.JTextField TextField_IdContainer;
-    private javax.swing.JTextField TextField_Reservation;
+    private javax.swing.JTextField TextField_Immatriculation;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

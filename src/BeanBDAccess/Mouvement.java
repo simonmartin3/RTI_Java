@@ -5,6 +5,7 @@
  */
 package BeanBDAccess;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -12,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author Simon
  */
-public class Mouvement {
+public class Mouvement implements Serializable{
     
     private int idMouvement;
     private String idContainer;
@@ -22,6 +23,24 @@ public class Mouvement {
     private int poids;
     private String dateDepart;
     private String destination;
+    
+    public Mouvement()
+    {
+        
+    }
+    
+    public Mouvement(int tmp1, String tmp2, String tmp3, String tmp4, String tmp5, 
+    int tmp6, String tmp7, String tmp8)
+    {
+        this.idMouvement = tmp1;
+        this.idContainer = tmp2;
+        this.idTransporteurIn = tmp3;
+        this.dateArrivee = tmp4;
+        this.idTransporteurOut = tmp5;
+        this.poids = tmp6;
+        this.dateDepart = tmp7;
+        this.destination = tmp8;
+    }
     
     public Mouvement(ResultSet resultSet) throws SQLException
     {
@@ -101,9 +120,9 @@ public class Mouvement {
     
     public String display()
     {
-        String log = idMouvement + "-" + idContainer + "-" + idTransporteurIn + 
-        "-" + dateArrivee + "-" + idTransporteurOut + poids + "-" + dateDepart + 
-        "-" + destination;
+        String log = idMouvement + "#" + idContainer + "#" + idTransporteurIn + 
+        "#" + dateArrivee + "#" + idTransporteurOut + "#" + poids + "#" + dateDepart + 
+        "#" + destination;
         return log;
     }
 }

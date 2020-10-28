@@ -17,13 +17,15 @@ public class Reservation {
     private String idContainer;
     private String idSociete;
     private String idTransporteur;
-    
+    private String dateReservation;
+  
     public Reservation(ResultSet resultSet) throws SQLException
     {
         this.idReservation = resultSet.getString(1);
         this.idContainer = resultSet.getString(2);
         this.idSociete = resultSet.getString(3);
         this.idTransporteur = resultSet.getString(4);
+        this.dateReservation = resultSet.getString(5);
     }    
 
     public String getIdReservation() {
@@ -56,6 +58,14 @@ public class Reservation {
 
     public void setIdTransporteur(String idTransporteur) {
         this.idTransporteur = idTransporteur;
+    }
+    
+    public String getDateReservation() {
+        return dateReservation;
+    }
+
+    public void setDateReservation(String dateReservation) {
+        this.dateReservation = dateReservation;
     }
     
 }

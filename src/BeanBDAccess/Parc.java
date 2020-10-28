@@ -22,6 +22,25 @@ public class Parc {
     private String destination;
     private String typeRetour;
     
+    public Parc()
+    {
+        
+    }
+    
+    public Parc(String tmp1, String tmp2, int tmp3, String tmp4, String tmp5, 
+    int tmp6, String tmp7, String tmp8)
+    {
+        
+        this.coordonnees = tmp1;
+        this.idContainer = tmp2;
+        this.etat = tmp3;
+        this.dateReservation = tmp4;
+        this.dateArrivee = tmp5;
+        this.poids = tmp6;
+        this.destination = tmp7;
+        this.typeRetour = tmp8;
+    }
+    
     public Parc(ResultSet resultSet) throws SQLException
     {
         this.coordonnees = resultSet.getString(1);

@@ -15,7 +15,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -26,7 +25,7 @@ import javax.swing.JOptionPane;
  *
  * @author Simon
  */
-public class CreateContainerClient extends javax.swing.JDialog {
+public class CreateContainerReservationClient extends javax.swing.JDialog {
 
     /**
      * Creates new form CreateContainerReservationClient
@@ -37,7 +36,7 @@ public class CreateContainerClient extends javax.swing.JDialog {
     private Socket tmpSocket;
     private List<String> idSociete;
     
-    public CreateContainerClient(java.awt.Frame parent, boolean modal, Socket s, String tmp) {
+    public CreateContainerReservationClient(java.awt.Frame parent, boolean modal, Socket s, String tmp) {
         super(parent, modal);
         initComponents();
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -52,23 +51,18 @@ public class CreateContainerClient extends javax.swing.JDialog {
         while (parser.hasMoreTokens())
             param.add(parser.nextToken());
         
-        TextField_IdTransporteur.setEditable(false);
-        TextField_IdTransporteur.setText(param.get(0).toString());
+        jLabel1.setText("Réservation - " + param.get(0).toString());
         
         TextField_IdContainer.setEditable(false);
         TextField_IdContainer.setText(param.get(1).toString());
         
-        Vector societe = new Vector();
-        StringTokenizer parser2 = new StringTokenizer(param.get(2).toString(), "/");
-        while (parser2.hasMoreTokens())
-            societe.add(parser2.nextToken());
+        TextField_IdTransporteur.setEditable(false);
+        TextField_IdTransporteur.setText(param.get(2).toString());
         
-        Iterator<String> itr = societe.iterator();
-        while(itr.hasNext())
-            ComboBox_Societe.addItem(itr.next());
+        ComboBox_Societe.addItem(param.get(3).toString());
         
         TextField_DateReservation.setEditable(false);
-        TextField_DateReservation.setText("/");
+        TextField_DateReservation.setText(param.get(4).toString());
     }
 
     /**
@@ -80,6 +74,7 @@ public class CreateContainerClient extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         ComboBox_Societe = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
@@ -98,6 +93,10 @@ public class CreateContainerClient extends javax.swing.JDialog {
         TextField_DateReservation = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Réservation - ?");
 
         jLabel2.setText("Société :");
 
@@ -134,6 +133,7 @@ public class CreateContainerClient extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ComboBox_Societe, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -158,6 +158,8 @@ public class CreateContainerClient extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TextField_IdContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -291,23 +293,21 @@ public class CreateContainerClient extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateContainerClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateContainerReservationClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateContainerClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateContainerReservationClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateContainerClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateContainerReservationClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateContainerClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreateContainerReservationClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CreateContainerClient dialog = new CreateContainerClient(new javax.swing.JFrame(), true, null, null);
+                CreateContainerReservationClient dialog = new CreateContainerReservationClient(new javax.swing.JFrame(), true, null, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -329,6 +329,7 @@ public class CreateContainerClient extends javax.swing.JDialog {
     private javax.swing.JTextField TextField_DateReservation;
     private javax.swing.JTextField TextField_IdContainer;
     private javax.swing.JTextField TextField_IdTransporteur;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

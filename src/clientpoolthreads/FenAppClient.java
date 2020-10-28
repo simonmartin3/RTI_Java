@@ -114,10 +114,14 @@ public class FenAppClient extends javax.swing.JFrame {
             
             case 1:
                 System.out.println(ComboBox_Requetes.getItemAt(requestSelected));
+                InputClient ic = new InputClient(this, false, cliSocket);
+                ic.setVisible(true);
                 break;
             
             case 2:
                 System.out.println(ComboBox_Requetes.getItemAt(requestSelected));
+                SearchMouvement sm = new SearchMouvement(this, false, cliSocket);
+                sm.setVisible(true);
                 break;
             
             case 3:
